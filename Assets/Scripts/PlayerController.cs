@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 700.0f;
     public float gravity = -9.81f;
     public float sprintDuration = 1.0f; // 冲刺的持续时间
+    public Transform respawnPoint; // 指向场景中重生点的变量
+    public LayerMask trapMask; // 用于识别陷阱的层
 
     private Vector3 velocity;
     private bool isSprinting = false;
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
         HandleSprint();
+        CheckForTraps();
     }
 
     private void HandleMovement()
@@ -69,6 +72,23 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void CheckForTraps()
+    {
+    if (Physics.CheckSphere(transform.position, characterController.radius, trapMask))
+    {
+        Debug.Log("Trap Detected!"); // 这行代码会在检测到陷阱时输出信息
+        Respawn();
+    }
+    }
+
+    private void Respawn()
+    {
+    transform.position = respawnPoint.position;
+    velocity = Vector3.zero; // 重置玩家速度
+    }
+
+    
 }
 
 
