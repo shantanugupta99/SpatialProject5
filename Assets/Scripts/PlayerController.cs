@@ -82,11 +82,14 @@ public class PlayerController : MonoBehaviour
     }
     }
 
-    private void Respawn()
-    {
+    public void Respawn()
+{
+    Debug.Log("Respawning to: " + respawnPoint.position);  // 输出重生位置
+    Debug.Log("Moving Transform of: " + transform.name);
     transform.position = respawnPoint.position;
     velocity = Vector3.zero; // 重置玩家速度
-    }
+}
+
 
     
 }

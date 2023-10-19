@@ -32,4 +32,13 @@ public class SpikeTrapDemo : MonoBehaviour {
         StartCoroutine(OpenCloseTrap());
 
     }
+    void OnTriggerEnter(Collider other)
+    {
+    if (other.gameObject.CompareTag("Player"))
+    {
+        // 玩家触碰了陷阱
+        other.GetComponent<PlayerController>().Respawn();
+    }
+    }
+
 }
