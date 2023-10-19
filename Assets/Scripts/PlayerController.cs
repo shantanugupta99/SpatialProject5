@@ -4,9 +4,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed = 5.0f;
+    public float sprintSpeed = 10.0f; // 冲刺时的速度
     public float rotationSpeed = 700.0f;
     public float gravity = -9.81f;
+    public float sprintDuration = 1.0f; // 冲刺的持续时间
+
     private Vector3 velocity;
+    private bool isSprinting = false;
+    private float sprintTimer = 0.0f;
     private CharacterController characterController;
 
     private void Start()
@@ -15,6 +20,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
+    {
+        HandleMovement();
+        HandleSprint();
+    }
+
+    private void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -28,16 +39,36 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            characterController.Move(moveDir.normalized * movementSpeed * Time.deltaTime);
+            float currentSpeed = isSprinting ? sprintSpeed : movementSpeed;
+            characterController.Move(moveDir.normalized * currentSpeed * Time.deltaTime);
         }
 
-        // 添加重力
+        // Handle gravity
         if (characterController.isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;  // 小于-9.81以确保角色紧贴地面
+            velocity.y = -2f;
         }
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
     }
+
+    private void HandleSprint()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isSprinting)
+        {
+            isSprinting = true;
+            sprintTimer = sprintDuration;
+        }
+
+        if (isSprinting)
+        {
+            sprintTimer -= Time.deltaTime;
+            if (sprintTimer <= 0)
+            {
+                isSprinting = false;
+            }
+        }
+    }
 }
+
 

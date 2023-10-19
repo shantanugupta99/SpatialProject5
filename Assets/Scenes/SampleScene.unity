@@ -46008,8 +46008,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+  sprintSpeed: 20
   rotationSpeed: 700
   gravity: -9.81
+  sprintDuration: 0.5
 --- !u!54 &1886742437
 Rigidbody:
   m_ObjectHideFlags: 0
