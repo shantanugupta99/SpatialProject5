@@ -23,22 +23,15 @@ public class SpikeTrapDemo : MonoBehaviour {
         //play open animation;
         spikeTrapAnim.SetTrigger("open");
         //wait 2 seconds;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         //play close animation;
         spikeTrapAnim.SetTrigger("close");
         //wait 2 seconds;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         //Do it again;
         StartCoroutine(OpenCloseTrap());
 
     }
-    void OnTriggerEnter(Collider other)
-    {
-    if (other.gameObject.CompareTag("Player"))
-    {
-        // 玩家触碰了陷阱
-        other.GetComponent<PlayerController>().Respawn();
-    }
-    }
+    
 
 }
